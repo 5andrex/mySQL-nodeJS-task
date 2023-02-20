@@ -23,7 +23,7 @@ const getProductDetails = (req, res) => {
         if (result.length === 0) return res.json({ message: "Product not found"})
 
         // Return the result if no error
-        return res.json(result)
+        res.json(result)
     })
 }
 

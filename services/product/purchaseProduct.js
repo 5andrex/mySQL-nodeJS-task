@@ -24,7 +24,7 @@ const purchaseProduct = (req, res) => {
         if(error) throw res.json({ message: error })
 
         // Return the result if no error
-        return res.json({ message: result })
+        return res.json({ message: "Purchase Successful!" })
     })
 }
 

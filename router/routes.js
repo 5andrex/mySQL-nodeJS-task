@@ -11,6 +11,7 @@ router.get('/', (req, res) => {
 router.get("/getListProducts", ProductService.getListProducts);
 router.post("/getProductDetails", ProductService.getProductDetails);
 router.post("/insertProduct", ProductService.insertProduct);
-router.post("/updateProduct", ProductService.updateProduct)
+router.post("/updateProduct", ProductService.updateProduct);
+router.get("/transactionHistory", ProductService.transactionHistory);
 
 module.exports = router

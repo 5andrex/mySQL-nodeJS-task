@@ -23,7 +23,16 @@ router.get('/data/sql', (req, res) => {
 
 // Create the appServices routes
 router.get("/getListProducts", ProductService.getListProducts);
-router.post("/getProductDetails", ProductService.getProductDetails);
+
+// Display the HTML page
+router.get('/product/:id', (req, res) => {
+    return res.sendFile(path.join(__dirname + '/../public/products/details.html'));
+})
+
+// Create the API route for getProductDetails 
+router.post("/api/v1/getProductDetails", ProductService.getProductDetails);
+
+
 router.post("/insertProduct", ProductService.insertProduct);
 router.post("/updateProduct", ProductService.updateProduct);
 router.get("/transactionHistory", ProductService.transactionHistory);

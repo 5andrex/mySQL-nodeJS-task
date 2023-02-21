@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NodeJS-MySQL App</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Database: <span id="connected-db-name"></span></h1>
+    <div>
+        <button id="get-product-list-page-btn">
+            <a href="http://localhost:5500/getListProducts">
+                Get Product List
+            </a>
+        </button>
+
+        <button id="get-product-details-page-btn">
+            <a href="http://localhost:5500/getProductDetails">
+                Get Product Details
+            </a>
+        </button>
+       
+        <button id="insert-product-page-btn">
+            <a>
+                Purchase Product
+            </a>
+        </button>
+       
+        <button id="update-product-page-btn">
+            <a>
+                Update Product
+            </a>
+        </button>
+        
+        <button id="insert-product-page-button">
+            <a href="http://localhost:5500/insertProduct">
+                Insert Product
+            </a>
+        </button>
+        
+        <button id="transaction-history-page-btn">
+            <a href="http://localhost:5500/transactionHistory">
+                Transaction History
+            </a>
+        </button>
+    </div>
+    
+    <script type="module" src="script.js"></script>
+</body>
+</html>

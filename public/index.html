@@ -6,6 +6,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NodeJS-MySQL App</title>
     <link rel="stylesheet" href="styles.css">
+
+    <script defer>
+        // Make an HTTP GET request to the server
+        const xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            // Parse the JSON response
+            const response = JSON.parse(xhr.responseText);
+
+            // Update the element's innerHTML with the response data
+            document.getElementById('connected-db-name').innerHTML = response.dbName;
+        }
+        };
+        xhr.open('GET', '/data/sql');
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.send();
+    </script>
 </head>
 <body>
     <h1>Database: <span id="connected-db-name"></span></h1>
@@ -46,7 +63,5 @@
             </a>
         </button>
     </div>
-    
-    <script type="module" src="script.js"></script>
 </body>
 </html>

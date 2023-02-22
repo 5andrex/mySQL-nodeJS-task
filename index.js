@@ -14,7 +14,7 @@ const app = express()
 const port = 5500
 
 // Create the routes
-app.use("/", routes)
+app.use(routes)
 
 // Set the app listener
 app.listen(port, () => {

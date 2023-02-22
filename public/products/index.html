@@ -9,23 +9,6 @@
     <link rel="stylesheet" href="../css/bootstrap.min.css">
     <script src="../js/popper.min.js" defer></script>
     <script src="../js/bootstrap.min.js" defer></script>
-
-    <script defer>
-        // Make an HTTP GET request to the server
-        const xhr = new XMLHttpRequest();
-        xhr.onreadystatechange = function() {
-        if (xhr.readyState === XMLHttpRequest.DONE) {
-            // Parse the JSON response
-            const response = JSON.parse(xhr.responseText);
-
-            // Update the element's innerHTML with the response data
-            document.getElementById('connected-db-name').innerHTML = response.dbName;
-        }
-        };
-        xhr.open('GET', '/data/sql');
-        xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.send();
-    </script>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light px-5">
@@ -58,7 +41,7 @@
                     </li>
                 </ul>
                 <form action="/products" class="d-flex">
-                    <input class="form-control me-2" type="search" placeholder="Search for products" aria-label="Search for products" name="q">
+                    <input class="form-control me-2" type="search" placeholder="Search for products" aria-label="Search for products" name="q" id="product-search">
                     <button class="btn btn-outline-success" type="submit">Search</button>
                 </form>
             </div>
@@ -75,7 +58,7 @@
         <div class="p-5">
             <div class="container-fluid py-2">
                 <div class="card overflow-hidden">
-                    <table class="table table-striped mb-0">
+                    <table class="table table-striped mb-0" id="product-table">
                         <thead class="table-light">
                             <tr>
                                 <th>
@@ -103,7 +86,7 @@
                                 <td colspan="3">
                                     <div class="d-flex justify-content-between align-items-center">
                                         <span class="fs-6">Showing <span id="current-item-count">0</span> out of <span id="total-item-count">0</span> items</span>
-                                        <nav aria-label="Page navigation example">
+                                        <!-- <nav aria-label="Page navigation example">
                                             <ul class="pagination mb-0">
                                               <li class="page-item"><a class="page-link" href="#">Previous</a></li>
                                               <li class="page-item"><a class="page-link" href="#">1</a></li>
@@ -111,7 +94,7 @@
                                               <li class="page-item"><a class="page-link" href="#">3</a></li>
                                               <li class="page-item"><a class="page-link" href="#">Next</a></li>
                                             </ul>
-                                        </nav>
+                                        </nav> -->
                                     </div>
                                 </td>
                             </tr>
@@ -121,5 +104,63 @@
             </div>
         </div>
     </main>
+
+    <script defer>
+        const search = document.getElementById("product-search");
+        const table = document.getElementById("product-table");
+        const tbody = document.getElementById("product-body");
+        const emptyHolder = document.getElementById("product-empty");
+        const itemCount = document.getElementById("current-item-count");
+        const totalItemCount = document.getElementById("total-item-count");
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const query = urlParams.get("q");
+
+        const getProducts = async () => {
+            const response = await fetch(`../api/v1/getListProducts`);
+            const data = await response.json();
+            return data;
+        };
+
+        const getProductsWithQuery = async () => {
+            const response = await fetch(`../api/v1/getProductDetails?model=${query}`, {
+                method: "POST"
+            });
+            const data = await response.json();
+            return data;
+        }
+
+        const renderProducts = async () => {
+            let products = [];
+
+            if (query) {
+                products = await getProductsWithQuery();
+                search.value = query
+            } else {
+                products = await getProducts();
+            }
+            
+            if (products.message === "Product not found") return;
+
+            if (products.length > 0) {
+                emptyHolder.remove();
+                products.forEach((product) => {
+                    const row = document.createElement("tr");
+                    row.innerHTML = `
+                        <td>${product.product_id}</td>
+                        <td>${product.product_model}</td>
+                        <td>${product.product_type}</td>
+                    `;
+                    tbody.appendChild(row);
+                });
+            }
+            itemCount.innerText = products.length;
+            totalItemCount.innerText = products.length;
+        };
+
+        document.addEventListener("DOMContentLoaded", function() {
+            renderProducts();
+        })
+    </script>
 </body>
 </html>

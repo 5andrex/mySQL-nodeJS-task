@@ -17,6 +17,9 @@ router.use(express.static(path.join(__dirname, '../../public')));
 router.get('/', (req, res) => {
     return res.sendFile(path.join(__dirname, '../../public/index.html'));
 })
+router.get('/products', (req, res) => {
+    return res.sendFile(path.join(__dirname, '../../public/products/index.html'));
+})
 
 router.get('/data/sql', (req, res) => {
     // Get the database name from the connection

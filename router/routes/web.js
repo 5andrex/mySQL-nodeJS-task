@@ -3,6 +3,9 @@ const router = express.Router()
 const path = require('path')
 const connection = require('../../database/mysql')
 
+// Integrate PopperJS
+router.use('/js', express.static(path.join(__dirname, '../../node_modules/@popperjs/core/dist/umd')));
+
 // Integrate Bootstrap
 router.use('/css', express.static(path.join(__dirname, '../../node_modules/bootstrap/dist/css')));
 router.use('/js', express.static(path.join(__dirname, '../../node_modules/bootstrap/dist/js')));
